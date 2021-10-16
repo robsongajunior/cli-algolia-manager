@@ -1,16 +1,12 @@
 #!/usr/bin/node
 
-
+let client;
 const fs = require('fs');
 const args = require('args-parser')(process.argv);
 const homedir = require('os').homedir();
-const cwd = process.cwd();
 const path = require('path');
-
-let client;
 const algoliasearch = require("algoliasearch");
 const StreamArray = require('stream-json/streamers/StreamArray');
-
 const configFilePath = path.normalize(`${homedir}/\.algolia/conf.json`);
 
 function uploadBatches(index, filepath) {
@@ -65,6 +61,7 @@ function uploadBatches(index, filepath) {
         });
     });
 };
+
 function loadConfig() {
     return new Promise((resolve, reject) => {
         fs.stat(configFilePath, (error, stats) => {
@@ -120,5 +117,3 @@ try {
 } catch(err) {
     console.log(err);
 }
-
-
