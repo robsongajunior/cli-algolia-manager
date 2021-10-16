@@ -10,8 +10,8 @@ The CLI to help to facilitate add/delete/reindex management data from Algolia in
 ## Easy to use
 
 ``` bash
-npm install .
-node index.js index=[name] lang=[lang]
+npm install -g .
+clialgmanager index=[name] lang=[lang]
 ```
 
 > ATENTION: config file required to perform command.

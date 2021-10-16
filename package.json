@@ -1,8 +1,11 @@
 {
   "name": "cli-algolia-manager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The CLI to facilitate the add/reindex/delete data from algolia indexes",
-  "main": "index.js",
+  "main": "bin/index.js",
+  "bin": {
+    "clialgmanager": "bin/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
