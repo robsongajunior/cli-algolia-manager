@@ -101,7 +101,6 @@ try {
             throw `[!] config.key.app and config.key.api required configuration. Please, verify ${configFilePath}`
         }
         
-
         client = algoliasearch(config.key.app, config.key.api);
         let configItem = config.index[args.index][args.lang];
         let index = client.initIndex(configItem.name);
