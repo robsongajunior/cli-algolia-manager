@@ -10,9 +10,6 @@ const StreamArray = require('stream-json/streamers/StreamArray');
 const configFilePath = path.normalize(`${homedir}/\.algolia/conf.json`);
 
 function uploadBatches(index, filepath) {
-    // let filepath; // fix this line
-    // let index = objindex[lang.replace('-', '')] || null;
-    
     fs.stat(filepath, (error, stats) => {
         if(!stats.isFile()) {
             console.log(`[!] ${filepath} it is not a file or not exist.`);
