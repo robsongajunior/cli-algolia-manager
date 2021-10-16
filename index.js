@@ -11,6 +11,7 @@ let client;
 const algoliasearch = require("algoliasearch");
 const StreamArray = require('stream-json/streamers/StreamArray');
 
+const configFilePath = path.normalize(`${homedir}/\.algolia/conf.json`);
 
 function uploadBatches(index, filepath) {
     // let filepath; // fix this line
@@ -64,11 +65,8 @@ function uploadBatches(index, filepath) {
         });
     });
 };
-
 function loadConfig() {
     return new Promise((resolve, reject) => {
-        const configFilePath = path.normalize(`${homedir}/\.algolia/conf.json`);
-        
         fs.stat(configFilePath, (error, stats) => {
             if(error) {
                 reject(error);
@@ -88,21 +86,37 @@ function hasArgs() {
 
 
 try {
-    console.log('[*] Starting')
+    if(!hasArgs()) {
+        throw '[!] index and lang required params';
+    }
     
-    return;
+    if(!args.index) {
+         throw '[!] index required param';
+    }
+    
+    if(!args.lang) {
+         throw '[!] lang required param';
+    }
 
     loadConfig().then((config) => {
-        console.log(config);
+        if(!config) {
+            config = {};
+        }
+
+        if(!config.key || !config.key.app || !config.key.api) {
+            throw `[!] config.key.app and config.key.api required configuration. Please, verify ${configFilePath}`
+        }
+        
+
         client = algoliasearch(config.key.app, config.key.api);
-        index = client.initIndex(/* indexname */);
-    
-        // uploadBatches(config.index[args.index][], args.lang);
+        let configItem = config.index[args.index][args.lang];
+        let index = client.initIndex(configItem.name);
+        let uploadFilePath = configItem.filepath;
+
+        uploadBatches(index, uploadFilePath);
     }).catch((error) => {
         throw error;
     });
-    
-    // uploadBatches(cindex.site, 'en');
 } catch(err) {
     console.log(err);
 }
